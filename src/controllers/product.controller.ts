@@ -169,4 +169,24 @@ export class ProductController {
     await this.productRepository.updateById(id, product);
     return product;
   }
+
+  //Funktion för att kunna uppdatera lagersaldo med ett valfritt antal
+  @patch('/products{id}/stock')
+  @response(204, {
+    description: 'Product PATCH success',
+  })
+  async setStock(
+    @param.path.string('id') id: string,
+    @requestBody() body: {stock: number},
+  ): Promise<Product> {
+
+    if (body.stock < 0) {
+      throw new Error('Kontrollera lagersaldo, värdet kan inte vara negativt');
+    }
+
+    const product = await this.productRepository.findById(id);
+    product.stock = body.stock;
+    await this.productRepository.updateById(id, product);
+    return product;
+  }
 }

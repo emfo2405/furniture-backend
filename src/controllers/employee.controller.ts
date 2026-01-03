@@ -1,30 +1,44 @@
+import {TokenService} from '@loopback/authentication';
+import {MyUserService, TokenServiceBindings, UserServiceBindings} from '@loopback/authentication-jwt';
+import {inject} from '@loopback/core';
 import {
   Count,
   CountSchema,
   Filter,
   FilterExcludingWhere,
-  repository,
   Where,
+  repository
 } from '@loopback/repository';
 import {
-  post,
-  param,
+  del,
   get,
   getModelSchemaRef,
+  param,
   patch,
+  post,
   put,
-  del,
   requestBody,
-  response,
+  response
 } from '@loopback/rest';
+import {SecurityBindings, UserProfile} from '@loopback/security';
 import {Employee} from '../models';
 import {EmployeeRepository} from '../repositories';
 
+
+
 export class EmployeeController {
   constructor(
+    @inject(TokenServiceBindings.TOKEN_SERVICE)
+    public jwtService: TokenService,
+    @inject(UserServiceBindings.USER_SERVICE)
+    public userService: MyUserService,
+    @inject(SecurityBindings.USER, {optional: true})
+    public user: UserProfile,
+
     @repository(EmployeeRepository)
-    public employeeRepository : EmployeeRepository,
-  ) {}
+    public employeeRepository: EmployeeRepository,
+
+  ) { }
 
   @post('/employees')
   @response(200, {

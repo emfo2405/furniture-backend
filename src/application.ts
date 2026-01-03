@@ -1,4 +1,5 @@
 import {AuthenticationComponent} from '@loopback/authentication';
+import {JWTAuthenticationComponent, UserServiceBindings} from '@loopback/authentication-jwt';
 import {BootMixin} from '@loopback/boot';
 import {ApplicationConfig} from '@loopback/core';
 import {RepositoryMixin} from '@loopback/repository';
@@ -9,6 +10,7 @@ import {
 } from '@loopback/rest-explorer';
 import {ServiceMixin} from '@loopback/service-proxy';
 import path from 'path';
+import {MongodbDataSource} from './datasources';
 import {MySequence} from './sequence';
 
 export {ApplicationConfig};
@@ -32,6 +34,10 @@ export class FurnitureBackendApplication extends BootMixin(
     this.component(RestExplorerComponent);
 
     this.component(AuthenticationComponent);
+
+    this.component(JWTAuthenticationComponent);
+
+    this.dataSource(MongodbDataSource, UserServiceBindings.DATASOURCE_NAME);
 
     this.projectRoot = __dirname;
     // Customize @loopback/boot Booter Conventions here

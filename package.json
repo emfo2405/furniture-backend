@@ -50,6 +50,7 @@
   ],
   "dependencies": {
     "@loopback/authentication": "^12.0.9",
+    "@loopback/authentication-jwt": "^0.16.9",
     "@loopback/boot": "^8.0.8",
     "@loopback/core": "^7.0.7",
     "@loopback/repository": "^8.0.7",
@@ -57,6 +58,10 @@
     "@loopback/rest-explorer": "^8.0.8",
     "@loopback/security": "^0.12.8",
     "@loopback/service-proxy": "^8.0.7",
+    "bcryptjs": "^3.0.3",
+    "dotenv": "^17.2.3",
+    "jsonwebtoken": "^9.0.3",
+    "lodash": "^4.17.21",
     "loopback-connector-mongodb": "^7.0.0-alpha.10",
     "tslib": "^2.0.0"
   },
@@ -64,6 +69,7 @@
     "@loopback/build": "^12.0.7",
     "@loopback/eslint-config": "^16.0.1",
     "@loopback/testlab": "^8.0.7",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^16.18.126",
     "eslint": "^8.57.1",
     "source-map-support": "^0.5.21",

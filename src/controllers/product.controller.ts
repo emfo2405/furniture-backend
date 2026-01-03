@@ -7,13 +7,13 @@ import {
   Where,
 } from '@loopback/repository';
 import {
-  post,
-  param,
+  del,
   get,
   getModelSchemaRef,
+  param,
   patch,
+  post,
   put,
-  del,
   requestBody,
   response,
 } from '@loopback/rest';
@@ -23,8 +23,8 @@ import {ProductRepository} from '../repositories';
 export class ProductController {
   constructor(
     @repository(ProductRepository)
-    public productRepository : ProductRepository,
-  ) {}
+    public productRepository: ProductRepository,
+  ) { }
 
   @post('/products')
   @response(200, {
@@ -146,5 +146,27 @@ export class ProductController {
   })
   async deleteById(@param.path.string('id') id: string): Promise<void> {
     await this.productRepository.deleteById(id);
+  }
+
+  //Funktion för att kunna ändra lagerantal med ett fast värde
+  @patch('/products/{id}/stock')
+  @response(204, {
+    description: 'Product PATCH success',
+  })
+  async updateStock(
+    @param.path.string('id') id: string,
+    @requestBody() body: {setNumber: number},
+  ): Promise<Product> {
+    const product = await this.productRepository.findById(id);
+
+    const newStock = product.stock + body.setNumber;
+
+    if (newStock < 0) {
+      throw new Error('Kontrollera lagersaldo, värdet kan inte vara negativt');
+    }
+
+    product.stock = newStock;
+    await this.productRepository.updateById(id, product);
+    return product;
   }
 }

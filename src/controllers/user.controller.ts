@@ -8,8 +8,10 @@ import {
 } from '@loopback/authentication-jwt';
 import {inject} from '@loopback/core';
 import {model, property, repository} from '@loopback/repository';
+import {SchemaObject} from '@loopback/rest';
 import {SecurityBindings, UserProfile} from '@loopback/security';
 
+//User-modell
 @model()
 export class NewUserRequest extends User {
   @property({
@@ -18,6 +20,22 @@ export class NewUserRequest extends User {
   })
   password: string;
 }
+
+const CredentialsSchema: SchemaObject = {
+  type: 'object',
+  required: ['email', 'password'],
+  properties: {
+    email: {
+      type: 'string',
+      format: 'email',
+    },
+    password: {
+      type: 'string',
+      minLength: 8,
+    },
+  },
+};
+
 
 export class UserController {
   constructor(

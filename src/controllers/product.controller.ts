@@ -1,3 +1,4 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -20,6 +21,7 @@ import {
 import {Product} from '../models';
 import {ProductRepository} from '../repositories';
 
+@authenticate('jwt')
 export class ProductController {
   constructor(
     @repository(ProductRepository)
@@ -58,6 +60,7 @@ export class ProductController {
     return this.productRepository.count(where);
   }
 
+  @authenticate.skip()
   @get('/products')
   @response(200, {
     description: 'Array of Product model instances',
@@ -95,6 +98,7 @@ export class ProductController {
     return this.productRepository.updateAll(product, where);
   }
 
+  @authenticate.skip()
   @get('/products/{id}')
   @response(200, {
     description: 'Product model instance',

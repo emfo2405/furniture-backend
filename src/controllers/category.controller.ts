@@ -1,3 +1,4 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -7,24 +8,25 @@ import {
   Where,
 } from '@loopback/repository';
 import {
-  post,
-  param,
+  del,
   get,
   getModelSchemaRef,
+  param,
   patch,
+  post,
   put,
-  del,
   requestBody,
   response,
 } from '@loopback/rest';
 import {Category} from '../models';
 import {CategoryRepository} from '../repositories';
 
+@authenticate('jwt')
 export class CategoryController {
   constructor(
     @repository(CategoryRepository)
-    public categoryRepository : CategoryRepository,
-  ) {}
+    public categoryRepository: CategoryRepository,
+  ) { }
 
   @post('/categories')
   @response(200, {
@@ -58,6 +60,7 @@ export class CategoryController {
     return this.categoryRepository.count(where);
   }
 
+  @authenticate.skip()
   @get('/categories')
   @response(200, {
     description: 'Array of Category model instances',
@@ -95,6 +98,7 @@ export class CategoryController {
     return this.categoryRepository.updateAll(category, where);
   }
 
+  @authenticate.skip()
   @get('/categories/{id}')
   @response(200, {
     description: 'Category model instance',

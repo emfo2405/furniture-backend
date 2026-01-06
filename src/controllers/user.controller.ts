@@ -28,6 +28,19 @@ export class NewUserRequest extends User {
     required: true,
   })
   password: string;
+
+  @property({
+    type: 'string',
+    required: true,
+  })
+  role: 'Lagerarbetare' | 'Arbetsledare';
+
+  @property({
+    type: 'string',
+    required: true,
+  })
+  name: string;
+
 }
 
 //Uppgifter CredentialsSchema ska bestå av

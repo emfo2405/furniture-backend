@@ -10,6 +10,7 @@ import {
 import {inject} from '@loopback/core';
 import {model, property, repository} from '@loopback/repository';
 import {
+  HttpErrors,
   SchemaObject,
   get,
   getModelSchemaRef,
@@ -175,6 +176,16 @@ export class UserController {
     })
     newUserRequest: NewUserRequest,
   ): Promise<User> {
+    //Kollar om e-postadressen som ska registreras finns sparad redan
+    const existingEmail = await this.userRepository.findOne({
+      where: {email: newUserRequest.email},
+    });
+
+    //Om användaren redan finns skickas ett felmeddelande
+    if (existingEmail) {
+      throw new HttpErrors.Conflict('En användare med den här e-postadressen är redan registrerad');
+    }
+
     const password = await hash(newUserRequest.password, await genSalt());
 
     //Skapa en användare att spara med fler argument

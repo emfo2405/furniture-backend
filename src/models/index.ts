@@ -1,3 +1,3 @@
-export * from './product.model';
 export * from './category.model';
-export * from './employee.model';
+export * from './product.model';
+

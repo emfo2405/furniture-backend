@@ -33,7 +33,7 @@ export class NewUserRequest extends User {
     type: 'string',
     required: true,
   })
-  role: 'Lagerarbetare' | 'Arbetsledare';
+  role: string;
 
   @property({
     type: 'string',
@@ -105,7 +105,7 @@ export class UserController {
   async login(
     @requestBody(CredentialsRequestBody)
     credentials: Credentials
-  ): Promise<{token: string}> {
+  ): Promise<{token: string; user: {id: string, email: string, name: string, role: string}}> {
     //Kolla om användaren finns och att lösenordet är rätt för användaren
     const user = await this.userService.verifyCredentials(credentials);
 
@@ -114,7 +114,15 @@ export class UserController {
 
     //Skapa en JSON Web Token för inloggningen och den specifika användaren
     const token = await this.jwtService.generateToken(userProfile);
-    return {token};
+    return {
+      token,
+      user: {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        role: user.role
+      }
+    };
   }
 
   //Funktion för att visa den inloggade användaren
@@ -165,11 +173,19 @@ export class UserController {
         },
       },
     })
-    NewUserRequest: NewUserRequest,
+    newUserRequest: NewUserRequest,
   ): Promise<User> {
-    const password = await hash(NewUserRequest.password, await genSalt());
+    const password = await hash(newUserRequest.password, await genSalt());
+
+    //Skapa en användare att spara med fler argument
+    const userArgs = {
+      ..._.omit(newUserRequest, 'password'),
+      role: newUserRequest.role ?? 'user',
+      name: newUserRequest.name ?? 'name',
+    }
+
     const savedUser = await this.userRepository.create(
-      _.omit(NewUserRequest, 'password'),
+      userArgs
     );
 
     await this.userRepository.userCredentials(savedUser.id).create({password});

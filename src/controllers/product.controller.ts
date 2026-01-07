@@ -153,13 +153,26 @@ export class ProductController {
   }
 
   //Funktion för att kunna ändra lagerantal med ett fast värde
-  @patch('/products/{id}/stock')
-  @response(204, {
-    description: 'Product PATCH success',
+  @patch('/products/{id}/addStock')
+  @response(200, {
+    description: 'Lagersaldo ökade/minskade',
   })
   async updateStock(
     @param.path.string('id') id: string,
-    @requestBody() body: {setNumber: number},
+    @requestBody({
+      required: true,
+      content: {
+        'application/json': {
+          schema: {
+            type: 'object',
+            required: ['setNumber'],
+            properties: {
+              setNumber: {type: 'number'},
+            },
+          },
+        },
+      },
+    }) body: {setNumber: number},
   ): Promise<Product> {
     const product = await this.productRepository.findById(id);
 
@@ -169,19 +182,33 @@ export class ProductController {
       throw new Error('Kontrollera lagersaldo, värdet kan inte vara negativt');
     }
 
-    product.stock = newStock;
-    await this.productRepository.updateById(id, product);
-    return product;
+    await this.productRepository.updateById(id, {stock: newStock});
+    return this.productRepository.findById(id);
   }
 
   //Funktion för att kunna uppdatera lagersaldo med ett valfritt antal
-  @patch('/products{id}/stock')
-  @response(204, {
-    description: 'Product PATCH success',
+  @patch('/products/{id}/updateStock')
+  @response(200, {
+    description: 'Lagersaldo uppdaterades',
   })
   async setStock(
     @param.path.string('id') id: string,
-    @requestBody() body: {stock: number},
+    @requestBody({
+      required: true,
+      content: {
+        'application/json': {
+          schema: {
+            type: 'object',
+            required: ['stock'],
+            properties: {
+              stock: {type: 'number'},
+            },
+
+          },
+        },
+      },
+    })
+    body: {stock: number},
   ): Promise<Product> {
 
     if (body.stock < 0) {
@@ -190,7 +217,7 @@ export class ProductController {
 
     const product = await this.productRepository.findById(id);
     product.stock = body.stock;
-    await this.productRepository.updateById(id, product);
-    return product;
+    await this.productRepository.updateById(id, {stock: body.stock});
+    return this.productRepository.findById(id);
   }
 }

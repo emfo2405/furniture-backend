@@ -148,7 +148,6 @@ export class UserController {
 
 
   ): Promise<string> {
-    console.log(currentUserProfile);
     return currentUserProfile[securityId];
   }
 

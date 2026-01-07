@@ -174,14 +174,18 @@ export class ProductController {
       },
     }) body: {setNumber: number},
   ): Promise<Product> {
+    //Produkten hittas med id
     const product = await this.productRepository.findById(id);
 
+    //Ett nytt lagersaldo sätts till det gamla + det inmatade värdet
     const newStock = product.stock + body.setNumber;
 
+    //Kontroll om lagersaldo är över 0
     if (newStock < 0) {
       throw new Error('Kontrollera lagersaldo, värdet kan inte vara negativt');
     }
 
+    //Uppdatera produkt med id och returnera sedan produkten
     await this.productRepository.updateById(id, {stock: newStock});
     return this.productRepository.findById(id);
   }
@@ -211,13 +215,18 @@ export class ProductController {
     body: {stock: number},
   ): Promise<Product> {
 
+    //Kontroll om det inmatade värdet är mindre än noll
     if (body.stock < 0) {
       throw new Error('Kontrollera lagersaldo, värdet kan inte vara negativt');
     }
 
+    //Hitta produkt baserat på dess id
     const product = await this.productRepository.findById(id);
+    //Sätt lagersaldo till det inmatade värdet
     product.stock = body.stock;
+    //Uppdatera produkt med id
     await this.productRepository.updateById(id, {stock: body.stock});
+    //Returnera den nya produkten
     return this.productRepository.findById(id);
   }
 }

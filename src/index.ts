@@ -3,7 +3,13 @@ import {ApplicationConfig, FurnitureBackendApplication} from './application';
 export * from './application';
 
 export async function main(options: ApplicationConfig = {}) {
-  const app = new FurnitureBackendApplication(options);
+  const app = new FurnitureBackendApplication({
+    rest: {
+      port: Number(process.env.PORT ?? 3000),
+      host: '0.0.0.0',
+    },
+    options
+  });
   await app.boot();
   await app.start();
 

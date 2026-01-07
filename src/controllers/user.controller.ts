@@ -144,10 +144,12 @@ export class UserController {
   })
   async loggedIn(
     @inject(SecurityBindings.USER)
-    currentUSerProfile: UserProfile,
+    currentUserProfile: UserProfile,
+
 
   ): Promise<string> {
-    return currentUSerProfile[securityId];
+    console.log(currentUserProfile);
+    return currentUserProfile[securityId];
   }
 
   @post('/signup', {

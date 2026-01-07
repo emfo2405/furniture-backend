@@ -1,6 +1,15 @@
-import {lifeCycleObserver, LifeCycleObserver} from '@loopback/core';
+import {inject, lifeCycleObserver, LifeCycleObserver} from '@loopback/core';
 import {juggler} from '@loopback/repository';
 
+import * as dotenv from 'dotenv';
+dotenv.config();
+
+const config = {
+  name: 'mongodb',
+  connector: 'mongodb',
+  url: process.env.MONGODB_URI,
+  database: process.env.DB_NAME,
+};
 
 // Observe application's life cycle to disconnect the datasource when
 // application is stopped. This allows the application to be shut down
@@ -10,13 +19,12 @@ import {juggler} from '@loopback/repository';
 export class MongodbDataSource extends juggler.DataSource
   implements LifeCycleObserver {
   static dataSourceName = 'mongodb';
+  static readonly defaultConfig = config;
 
-
-  constructor() {
-    super({
-      name: 'mongodb',
-      connector: 'mongodb',
-      url: process.env.MONGODB_URI,
-    });
+  constructor(
+    @inject('datasources.config.mongodb', {optional: true})
+    dsConfig: object = config,
+  ) {
+    super(dsConfig);
   }
 }

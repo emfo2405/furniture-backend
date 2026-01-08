@@ -1,0 +1,59 @@
+[33mcommit d9e519c5a9fb169dd9ca10e260fa7f407410dfd9[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Author: emfo2405 <emfo2405@student.miun.se>
+Date:   Wed Jan 7 12:03:01 2026 +0100
+
+    Ändrat databasinformation
+
+[33mcommit 6629130897bb137f015e07877194be017bd247fa[m
+Author: emfo2405 <emfo2405@student.miun.se>
+Date:   Wed Jan 7 11:25:58 2026 +0100
+
+    Ändrat database
+
+[33mcommit 93074e2d03655079b05235b0799ee3a79f7695cf[m
+Author: emfo2405 <emfo2405@student.miun.se>
+Date:   Wed Jan 7 10:53:51 2026 +0100
+
+    Testar att lösa databasproblem
+
+[33mcommit c636b9eb544da090fbf165efc838e111c9f81a9b[m
+Author: emfo2405 <emfo2405@student.miun.se>
+Date:   Wed Jan 7 10:47:33 2026 +0100
+
+    Fel fixade för att kunna deploya
+
+[33mcommit a98d7dd00ebb5e5633c741871da8ff74fab962ef[m
+Author: emfo2405 <emfo2405@student.miun.se>
+Date:   Wed Jan 7 10:32:51 2026 +0100
+
+    Ändringar för url efter en till misslyckad deploy
+
+[33mcommit c7361b964080a33a5de2f07e952ff11794e776a5[m
+Author: emfo2405 <emfo2405@student.miun.se>
+Date:   Wed Jan 7 10:20:05 2026 +0100
+
+    host ändrad efter misslyckad deploy på render
+
+[33mcommit 42e14a7e190f6cedd748dbe026e8ceb1a30517a4[m
+Author: emfo2405 <emfo2405@student.miun.se>
+Date:   Wed Jan 7 10:13:58 2026 +0100
+
+    Fel fixade för databasanslutning
+
+[33mcommit 67262b92c6f768f89f147bea518b6e45a5730a7b[m
+Author: emfo2405 <emfo2405@student.miun.se>
+Date:   Wed Jan 7 09:39:35 2026 +0100
+
+    Kommentarer tillagda
+
+[33mcommit dbca6eb9b4522b7b7df029105c1f23326d67e208[m
+Author: emfo2405 <emfo2405@student.miun.se>
+Date:   Wed Jan 7 09:35:10 2026 +0100
+
+    Stavfel ändrade
+
+[33mcommit d10d6a0f98636721ed75ee917daa7def4076d2d4[m
+Author: emfo2405 <emfo2405@student.miun.se>
+Date:   Wed Jan 7 09:22:17 2026 +0100
+
+    Fel fixade in funktioner som uppdaterar lagersaldo

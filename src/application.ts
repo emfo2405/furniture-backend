@@ -19,7 +19,22 @@ export class FurnitureBackendApplication extends BootMixin(
   ServiceMixin(RepositoryMixin(RestApplication)),
 ) {
   constructor(options: ApplicationConfig = {}) {
-    super(options);
+    super({
+      ...options,
+      //Tillägg efter att frontend klagade på CORS
+      rest: {
+        cors: {
+          origin: '*',
+          methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+          preflightContinue: false,
+          optionsSuccessStatus: 204,
+          maxAge: 86400,
+          credentials: true,
+        },
+      },
+    });
+
+
 
     // Set up the custom sequence
     this.sequence(MySequence);
